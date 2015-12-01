@@ -7,7 +7,9 @@ var Knapsack = {};
 
 Knapsack.items = []; //Itens da instancia
 Knapsack.solutions = []; //Solucoes para o problema
-Knapsack.generations = 10; //Condicao de parada, quantidade de geracoes
+
+//DEVE SEMPRE SER UM NUMERO PAR
+Knapsack.maxGenerations = 10; //Condicao de parada, quantidade de geracoes
 Knapsack.initSolutions = 4; //quantidade inicial da populacao
 Knapsack.maxWeigth = 0; //Peso maximo que a mochila suporta
 
@@ -77,6 +79,18 @@ Knapsack.findSolution = function(maxWeigth, items){
     this.items = items;
 
     this.initPopulation();
+
+    for(var i = 0; i < this.maxGenerations; i++){
+
+        //Cruza a populacao atual
+        for(var j=0; j < this.solutions.length; j += 2){
+            this.crossover(this.solutions[j], this.solutions[j+1]);
+        }
+
+        //TODO:Avalia a populacao gerada
+
+
+    }
 
     console.log(this.solutions);
 
