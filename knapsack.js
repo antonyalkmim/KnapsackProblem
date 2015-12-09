@@ -87,9 +87,13 @@ Knapsack.getSolutionsToCross = function(){
         //seleciona duas solutions aleatoriamente
         var a = Math.floor((Math.random() * this.solutions.length-1)+1);
         var b = Math.floor((Math.random() * this.solutions.length-1)+1);
-        b = (a==b ? b+1 : b)%3;
+        //b = (a==b ? b+1 : b)%3;
 
         //verifica qual a melhor entre as duas
+        //console.log("Solutions:", this.solutions.length);
+        //console.log("a:", a);
+        //console.log("B:", b);
+        //TODO: as vezes todas os individuos ficam invalidos e a populacao fica vazia
         var key = this.solutions[a].fitness > this.solutions[b].fitness ? a : b;
 
         solutionsToCross.push(this.solutions[key]);
@@ -99,6 +103,10 @@ Knapsack.getSolutionsToCross = function(){
 };
 
 Knapsack.getValidSolutions = function(){
+    var solutions = new Array();
+    solutions.concat(this.solutions);
+
+
     //remover valores invalidos que possuem fitness negativos
     for(var i=0; i<this.solutions.length; i++){
         if(this.solutions[i].fitness < 0){
@@ -106,6 +114,15 @@ Knapsack.getValidSolutions = function(){
             i--;
         }
     }
+
+    //verifica se nao houver nenhum individuo valido, insere os invalidos
+    if(this.solutions.length == 0){
+        solutions.sort(function(a,b){
+            return b.fitness - a.fitness;
+        });
+        return solutions.slice(0, this.maxSolutions);
+    }
+
     return this.solutions.slice(0, this.maxSolutions);
 };
 
